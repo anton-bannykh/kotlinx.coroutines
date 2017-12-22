@@ -16,6 +16,7 @@
 
 package kotlinx.coroutines.experimental
 
+import kotlinx.coroutines.experimental.internal.*
 import kotlin.coroutines.experimental.AbstractCoroutineContextElement
 import kotlin.coroutines.experimental.Continuation
 import kotlin.coroutines.experimental.ContinuationInterceptor
@@ -116,7 +117,8 @@ internal class DispatchTask<in T>(
     private val value: Any?, // T | Throwable
     private val exception: Boolean,
     private val cancellable: Boolean
-) : Runnable {
+) : LockFreeLinkedListNode(), Runnable {
+
     @Suppress("UNCHECKED_CAST")
     override fun run() {
         try {
